@@ -1,0 +1,289 @@
+% Plantilla de memoria Universidad de los Andes
+% para usuarios de pdfLaTeX.
+%
+% Jaime Cisternas, Santiago, junio de 2004, agosto 2010
+%
+% Necesita todos los archivos *.tex llamados en las
+% sentencias \input{} (cap1, cap2,...)
+% ademas de buc.bib y las figuras.
+%
+% El archivo setspace.sty permite especificar el espaciado
+% entre las lineas. Los archivos newapa.sty y newapa.bst
+% especifican el formato de la bibliografia.
+%
+% Para compilar :                    pdflatex memoria
+% Para generar la bibliografia :     bibtex memoria, pdflatex memoria.tex (dos veces)
+
+\documentclass[12pt,lqno]{report}
+\setlength{\parindent}{0in}
+%[lqno]
+%[12pt]
+% El archivo siguiente contiene todos los detalles
+% finos del formato de la memoria.
+% No es necesario modificarlo.
+
+\input{preambulo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% LAS SIGUIENTES LINEAS DEBEN SER MODIFICADAS POR EL AUTOR DE LA MEMORIA
+% SI EL TITULO ES MUY LARGO PUEDE SER CORTADO CON \linebreak
+
+\newcommand{\nombreautor}{José Joaquín Carvajal Ramírez}
+\newcommand{\mes}{Enero}
+\newcommand{\anio}{2021}
+\newcommand{\titulo}{Time-space DPG}
+\newcommand{\nombreprofuno}{Thomas Führer}
+\newcommand{\nombreprofdos}{Profesor 2}
+\newcommand{\nombreproftres}{Profesor 3}
+\newcommand{\codigo}{ING-ICE-05/15}
+
+% LAS SIGUIENTES DEFINICIONES TAMBIEN SON NECESARIAS.
+% ES FUNDAMENTAL QUE EL TEXTO ESTE ENCERRADO ENTRE
+% PARENTESIS DE LLAVE.
+
+\newcommand{\resumen}{
+
+
+%El resumen no debe ocupar más de una página y se escribe
+%al igual que el resto de la memoria en primera persona plural
+%(``en este estudio hemos desarrollado...'', ``consideramos...'')
+%o en voz pasiva (``el modelo ha sido analizado...'', ``será simulado...''),
+%tratando de ser consistente en el uso de una de estas opciones.
+
+%El resumen debe ser simple, fácilmente leible por cualquier persona.
+%Se recomienda no incluir siglas (aún aquellas de uso habitual),
+%símbolos matemáticos, ecuaciones o palabras en otro idioma.
+
+%La estructura de la memoria ha de ser la siguiente:
+%páginas de título, resumen, índice, listas de ilustraciones
+%y tablas, capítulos, anexos y bibliografía.
+
+%El formato mínimo especifica cuatro márgenes de 2.5 cm,
+%tipo de letra Times de tamaño 12 puntos y un espaciado entre líneas
+%parecido a 0.6 cm (1.5 veces el espaciado normal).
+
+%Se recomienda vivamente usar esta plantilla \LaTeX{}
+%ya que con ella el autor puede despreocuparse de muchos detalles
+%de la edición y concentrarse en el contenido de la memoria y
+%en la claridad de la exposición.
+}
+
+\newcommand{\agradecimientos}{
+
+Muchas gracias a todas aquellas personas que quizás
+sin saberlo y sin mala voluntad de su parte
+colaboraron a la finalización de esta investigación... 
+
+%En esta página se puede nombrar a toda clase de personas,
+%amigos y parientes, sin olvidar al profesor guía y
+%a la secretaria de la Facultad.
+}
+
+\newcommand{\dedicatoria}{\it
+Este trabajo se lo dedico a Alvaro, Matías y a Benjamín.
+% mis papás, a mis abuelitos,
+% a mi nana y a mi tía del Kinder.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Por favor coloque todas las definiciones de simbolos a continuacion
+% y no en los archivos de capitulos. Esto evitara la  existencia de
+% multiples definiciones para las mismas palabras.
+
+\newcommand{\mydef}
+	{\stackrel{\mathrm{def}}{=}}
+\newcommand{\e}
+	{\hbox{\large{e}}}
+\newcommand{\mi}
+	{\hbox{\large{i}}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\dd}{\mathrm{d}}
+
+\newcommand{\R}{\mathbb{R}}    %conjunto numeros reales
+\newcommand{\N}{\mathbb{N}}    %conjunto numeros naturales
+\newcommand{\Z}{\mathbb{Z}}    %conjunto numeros enteros
+\newcommand{\Q}{\mathbb{Q}}    %conjunto numeros racionales
+\newcommand{\C}{\mathbb{C}}    %conjunto numeros Complejos
+ 
+\newcommand{\D}{\mathcal{D}}    %problema dual
+\renewcommand{\P}{\mathcal{P}}  %problema primal
+ 
+\newcommand{\ssi}{\Leftrightarrow} %si y solo si
+\newcommand{\To}{\Rightarrow}      %implica
+\newcommand{\tq}{\mid }            % tal que
+ 
+%operadores matematicos:
+ 
+\newcommand{\sen}{\operatorname{sen}}       %seno
+\newcommand{\senh}{\operatorname{senh}}       %seno
+\newcommand{\asen}{\operatorname{arcsen}}
+\newcommand{\diag}{\operatorname{{\bf diag}}}         %diagonal
+\newcommand{\sop}{\operatorname{Sop}}       %soporte
+\newcommand{\Dom}{\operatorname{Dom}}       %Dominio
+\newcommand{\dom}{\operatorname{Dom}}       %%
+%Dominio
+\newcommand{\Rec}{\operatorname{Rec}}       %Recorrido
+\newcommand{\ind}{\operatorname{\mathbbm{1}}} %vector de unos
+\newcommand{\Int}{\operatorname{int}}	%Interior
+\newcommand{\img}{\operatorname{Img}}       %imagen
+\newcommand{\Tr}{\operatorname{Tr}}      %traza
+\newcommand{\Dev}{\operatorname{Dev}} %Deviatoric
+\newcommand{\Ep}{\mathcal{E}}
+
+\newcommand{\dv}{\operatorname{div}} 
+\newcommand{\gr}{\operatorname{grad}}
+
+\newcommand{\conv}{\operatorname{conv}}
+
+\newcommand{\diam}{\operatorname{diam}}
+
+\newcommand{\rel}{\operatorname{rel}}
+
+\newcommand{\eff}{\operatorname{eff}}
+
+\newcommand{\osc}{\operatorname{osc}}
+
+\newcommand{\re}{\operatorname{ref}}
+ 
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}% Argmin
+ 
+\newcommand{\prob}{\mathbbm{P}} % probabilidad
+\newcommand{\E}{\mathbbm{E}}    %esperanza variable aleatoria
+\newcommand{\var}{\operatorname{Var}}   %varianza
+\newcommand{\epi}{\operatorname{Epi}}   %varianza
+\providecommand{\carvi}[1]{\textcolor{red}{#1}} 
+\providecommand{\abs}[1]{\lvert#1 \rvert}  %valor absoluto ej: $\abs{ x }$
+\providecommand{\norm}[1]{\left\lVert#1 \right\rVert} %norma ej: $\norm{ x }$
+\providecommand{\pp}[2]{\langle #1 , #2 \rangle} %prod punto  ej: $\pp{x}{y}$
+\providecommand{\ip}[3]{( #1 , #2 )_{#3}} %prod punto  ej: $\pp{x}{y}$
+\providecommand{\nm}[2]{\left\lVert#1 \right\rVert_{#2}}
+
+\providecommand{\bs}[1]{\boldsymbol{#1}}
+
+\newcommand{\tnorm}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+\newcommand{\fracpar}[2]{\frac{\partial #1 }{\partial #2}} 
+%derivada parcial ejemplo uso:$ \fracpar{y}{x}$
+
+%simbolos diversos:
+ 
+\newcommand{\nota}{{\bf Notaci\'on}:\ }
+%\newcommand{\obs}{{\bf Observaci\'on}:\ }
+\newcommand{\ej}{{\bf Ejemplo}:\ }
+ 
+\newcommand{\NN}{\mathcal{N}} %vecindad de un punto
+\newcommand{\CC}{\mathcal{C}} %vecindad de un punto
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\J}{\mathcal{J}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\sujetoA}{\text{s. a}}                    % Sujeto a.
+
+
+\newcommand{\ve}{\varepsilon}
+\newcommand{\hh}{H_\star}
+\newcommand{\uu}{\boldsymbol{u}}
+\newcommand{\ff}{\boldsymbol{f}}
+\newcommand{\vv}{\boldsymbol{v}}
+\newcommand{\ww}{\boldsymbol{w}}
+\newcommand{\vt}{\widehat{\vv}}
+\newcommand{\VT}{\widetilde{\mathcal{V}}}
+\newcommand{\sig}{\boldsymbol{\sigma}}
+\newcommand{\bchi}{\boldsymbol{\chi}}
+\newcommand{\bxi}{\boldsymbol{\xi}}
+\newcommand{\dt}{\partial_t}
+\newcommand{\V}{\widetilde{V}}
+\newcommand{\cyl}{\mathcal{Q}}
+\newcommand{\nab}{\nabla_{\boldsymbol{x}}}
+\newcommand{\dvx}{\dv_{\bs{x}}}
+\newcommand{\Del}{\Delta_{\bs{x}}}
+\newcommand{\bdot}{\boldsymbol{\cdot}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\sF}{C^\infty}
+\newcommand{\sFc}{\mathcal{D}}
+\newcommand{\Lc}{L_2(\cyl)}
+\newcommand{\Lcd}{L_2(\cyl)^d}
+\newcommand{\LcdI}{L_2(\cyl)^{1+d}}
+\newcommand{\Lk}{L_2(K)}
+\newcommand{\Lkd}{L_2(K)^d}
+\newcommand{\LkdI}{L_2(K)^{1+d}}
+\newcommand{\Lo}{L_2(\Omega)}
+\newcommand{\Lod}{L_2(\Omega)^d}
+\newcommand{\LodI}{L_2(\Omega)^{1+d}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Ao}{\mathcal{A}_0}
+\newcommand{\Mesh}{\mathcal{T}}
+\newcommand{\At}{\mathcal{A}_{0,\Mesh}}
+\newcommand{\TrS}{\Gamma(\partial\Mesh)}
+\newcommand{\tr}{\operatorname{tr}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%definicion de ambientes:
+%\theoremstyle{definition}
+
+\newtheorem{defi}{Definition}[chapter]
+\newtheorem{teor}{Theorem}[chapter]
+\newtheorem{prop}[teor]{Proposition}%[chapter]
+\newtheorem{cor}[teor]{Corollary}%[chapter]
+\newtheorem{lemma}[teor]{Lemma}%[chapter]
+\newtheorem{ejem}{Ejemplo}
+\newtheorem{obs}{Remark}
+\newtheorem{asump}{Assumption}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+
+%\pagestyle{plain}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\label{start}
+
+% Genera las paginas de titulo, copyright, resumen,
+% agradecimientos, dedicatoria, indices,...
+
+% No es necesario modificar
+
+\input{primeras_paginas}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Cap1}    % insertar archivo de capitulo 1 : cap1.tex
+
+\input{Cap2}    % mas capitulos : cap2.tex
+
+\input{Cap3}    % y mas
+
+%\input{Cap4}    % y mas
+
+%\input{Cap5}    % y mas ...
+
+%\input{Cap6}    % y mas ...
+
+% Ingenieros prefieren la bibliografia antes que los anexos
+
+\cleardoublepage
+
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\bibliographystyle{acm}
+\bibliography{buc1}
+
+\appendix % seguido de archivos de apendices
+
+\cleardoublepage
+
+% Escribe 'Anexos' en el Indice General
+\addcontentsline{toc}{chapter}{Anexos}
+
+%\input{Anexo_A}    % archivo de apendice
+
+%\input{apendice_b}    % otro archivo de apendice
+
+\label{end}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

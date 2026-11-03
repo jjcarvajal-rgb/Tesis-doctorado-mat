@@ -1,0 +1,51 @@
+ \begin{comment}
+    %Let $H^1_{\I\times\partial\Omega}(\cyl)$ be the space of functions in $H^1(\cyl)$ vanishing on $\I\times\partial\Omega\subset\partial\cyl$. Define the space $W:=H^1_{\I\times\partial\Omega}(\cyl)\times(L_2(H(\dvx;\Omega))\cap H^1(\Lo^{d}))$. We will show that $W$ is dense in $V_T$. Note that we have the continuous embedding $W\hookrightarrow V_T$, and the densities of
+
+    \begin{eqnarray*}
+        \{v\in C^\infty(\overline{\cyl})\,|\,v|_{\I\times\partial\Omega}=0\}&\text{in}&H^1_{\I\times\partial\Omega}(\cyl),\\
+        C^\infty(\overline{\I})\otimes C^\infty(\overline{\Omega})^d&\text{in}&L_2(H(\dvx;\Omega))\cap H^1(\Lo^{d}),
+    \end{eqnarray*}
+
+    where the first density is from \cite[Thm. 3.6]{fuhrer2023well} and the second density result follows from Lemma \ref{UsefulProperties} ($ii$) and the fact that $C^\infty(\overline{\Omega})$ is dense in $H(\dvx;\Omega)$. Then, is enough to prove that $W$ is dense in $V_T$.
+
+    Density of $W$ is equivalent to showing that for each $\ell\in (V_T)'$ with $\ell((v,\sig))=0$ for all $(v,\sig)\in W$ implies that $\ell=0$. The Riesz representation theorem and Theorem \ref{iso} imply that there exists a unique $(w,\bchi)\in V_T$ such that
+
+    \begin{equation}\label{RieszForm}
+        \ell((v,\sig))=(-\Ao(w,\bchi),-\Ao(v,\sig))_\cyl+((w(T),\bchi(T)),(v(T),\sig(T)))_\Omega
+    \end{equation}
+
+    for all $(v,\sig)\in V_T$.
+
+    Suppose that $\ell((v,\sig))=0$ for all $(v,\sig)\in W$. Take $(v,\sig)\in\sFc(\cyl)^{1+d}$ and set $(u,\bs{\tau})=-\Ao(w,\bchi)\in\LcdI$. The definition of weak derivatives implies that
+
+    $$0=\ell((v,\sig))=((u,\bs{\tau}),-\Ao(v,\sig))_{\cyl}=\pp{\Ao(u,\bs{\tau})}{(v,\sig)}_{\sFc'(\cyl)\times\sFc(\cyl)}.$$
+
+    Then $0=\Ao(u,\bs{\tau})\in\LcdI$, therefore $(u,\bs{\tau})\in\widetilde{V}$. Next, we prove that $(u(0),\bs{\tau}(0))=0$. Take $(v,\sig)\in [\sF(\I)\otimes\sFc(\Omega)]^{1+d}$ with $(v(T),\sig(T))=0$ and observe that
+
+    \begin{align*}
+        0=\ell((v,\sig))&=((u,\bs{\tau}),-\bs{\dv}B(v,\sig))_\cyl\\
+        &=(\bs{\dv}B(u,\bs{\tau}),(v,\sig))_\cyl-\langle B(u,\bs{\tau})\bs{n},(v,\sig)\rangle_{\partial\cyl}\\
+        &=\langle B(u,\bs{\tau})\bs{n},(v,\sig)\rangle_{\{0\}\times\Omega},
+    \end{align*}
+
+    where we have used the fact that $\bs{\dv}B(u,\bs{\tau})=\Ao(u,\bs{\tau})=0$, and $v,\sig$ vanish on $\partial\cyl\setminus\{0\}\times\Omega$. Since $(v(0),\sig(0))\in\sFc(\Omega)$, we get $B(u(0),\bs{\tau}(0))=0$ and conclude that $(u(0),\bs{\tau}(0))=0$.
+
+    Now we prove that $(u,\bs{\tau})\in \ker D_0$. Take $\varphi\in Y_T$ and note that $(0,\nab\varphi)\in W$. Then, using that $((u,\bs{\tau}),-\bs{\dv}B(0,\nab\varphi))_\cyl=0$ (by \eqref{RieszForm}), $\bs{\dv}B(u,\bs{\tau})=0$ and $\bs{\tau}(0)=0$ we infer that
+
+    
+
+    \begin{align*}
+        D_0(u,\bs{\tau})(\varphi)&=(\dt\bs{\tau}-\nab u,\nab\varphi)_\cyl+(\bs{\tau},\dt\nab\varphi)_\cyl-(u,\Del\varphi)_\cyl-(\bs{\tau}(0),\nab\varphi(0))_\Omega\\
+        &=(\dt u-\dvx\bs{\tau},0)_\cyl+(\dt\bs{\tau}-\nab u,\nab\varphi)_\cyl+(u,\dt0-\dvx(\nab\varphi))+(\bs{\tau},\dt\nab\varphi-\nab0)_\cyl\\
+        &=(\bs{\dv}B(u,\bs{\tau}),(0,\nab\varphi))_\cyl+((u,\bs{\tau}),\bs{\dv}B(0,\nab\varphi))_\cyl=0
+    \end{align*}
+
+    With this, $(u,\bs{\tau})\in \ker D_0=V_0$. Since $\Ao(u,\bs{\tau})=0$ and $(u(0),\bs{\tau}(0))=0$ we get that $\A(u,\bs{\tau})=0$. Then, by Theorem \ref{iso}, $0=(u,\bs{\tau})=\Ao(w,\bchi)$. Finally,
+
+    \begin{align}
+        0=\ell((v,\sig))&=(-\Ao(w,\bchi),-\Ao(v,\sig))_\cyl+((w(T),\bchi(T)),(v(T),\sig(T)))_\Omega\\
+        &=((w(T),\bchi(T)),(v(T),\sig(T)))_\Omega \hspace{0.3 cm}\forall(v,\sig)\in[\sF(\I)\otimes \sFc(\Omega)]^{1+d}\subset\bs{C}^\infty.
+    \end{align}
+
+    It follows that $(w(T),\bchi(T))=0$. This together with $\Ao(w,\bchi)=0$ and \eqref{RieszForm} proves $\ell=0$ which finishes the proof.
+    \end{comment}

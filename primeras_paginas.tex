@@ -1,0 +1,72 @@
+% Paginas de titulo, derechos de autor y otras mas.
+
+% Jaime Cisternas, julio 2004, agosto 2010
+
+% declaracion especifica de pdfLaTeX
+% permite incluir figuras con \includegraphics[...]{figurename}
+\DeclareGraphicsExtensions{.jpg,.pdf,.mps,.png}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \pagenumbering{roman}
+% \setcounter{page}{1}
+
+% Escribe la pagina de titulo, incluyendo el autor y la facultad
+
+  \thispagestyle{empty}
+  \textsc{
+  \vspace*{0cm}
+  \begin{center}
+    \Large
+     Pontificia Universidad Católica de Chile \\
+     Facultad de Matemáticas\\
+  \end{center}
+     \vspace{1cm}
+  \begin{center}
+     \includegraphics[angle=0,height=5cm]{descarga.jpeg}
+  \end{center}
+     \vspace{0.5 cm}
+  \begin{center}
+     \Large
+     \titulo
+  \end{center}
+    }
+    \vspace{0.5 cm}
+    
+    \begin{center}
+        
+    
+    \begin{multicols}{2}
+    
+    \textit{Author:}\\
+    \nombreautor
+    \columnbreak
+    
+    \textit{Supervisor:}\\
+    \nombreprofuno
+    
+    \end{multicols}
+    
+    
+    \end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Escribe la segunda pagina de titulo para ser firmada por la comision
+
+
+
+% Produce indice general, listas de figuras y de tablas
+
+  \cleardoublepage
+  \tableofcontents
+  \cleardoublepage
+  %\listoffigures
+  %\cleardoublepage
+  %\listoftables
+  %\cleardoublepage
+
+  \normalsize
+  \pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

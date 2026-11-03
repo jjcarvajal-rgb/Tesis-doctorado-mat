@@ -1,0 +1,251 @@
+\chapter{Least-Squares}
+\label{C1}
+
+In this work we analyse a time-stepping scheme based on least-squares finite element methods for a first-order reformulation of the Stokes problem
+
+\begin{subequations}\label{StokesEq}
+\begin{align}
+    \dot{u}-\Delta u +\nabla p &=f \text{ in }(0,T)\times\Omega,\\
+    \dv(u)&=0\text{ in }(0,T)\times\Omega,\\
+    u&=0 \text{ in }(0,T)\times\partial\Omega,\\
+    u(0,\cdot)&=u^0 \text{ in }\Omega.
+\end{align}
+\end{subequations}
+
+Here, $\Omega$ is a bounded and connected Lipschitz domain ($\Omega\subset\R^d$ with $d=2,3$), $u$ (velocity) is a vector valued function and $p$ (pressure) is a scalar function.
+
+\vspace{0.3 cm}
+
+\section{First order system and least-squares method}
+
+Let $I$ denote the identity matrix. We reformulate the Stokes problem by introducing the pseudo-stress $M$ as new variable
+
+$$M=\nabla u-p\cdot I.$$
+
+Taking the trace of this matrix we get $\Tr(M)=\dv(u)-p\cdot d$. Thus, we can eliminate the pressure $p$ in \eqref{StokesEq} and reformulate the Stokes problem as
+
+\begin{subequations}\label{NewVariable}
+\begin{align}
+    \dot{u}-\dv(M)&=f\text{ in }(0,T)\times\Omega,\\
+    \Dev(M)-\nabla u&=0\text{ in }(0,T)\times\Omega,\\
+    u &= 0 \text{ in }(0,T)\times\partial\Omega,\\
+    u(0,\cdot) &=u^0 \text{ in }\Omega.
+\end{align}
+\end{subequations}
+
+We approximate $\dot{u}^n$ by backward difference, that is, $\dot{u}^n\approx (u^n-u^{n-1})/k$. This approach naturally leads to a time-stepping method: given an approximation $\tilde{u}^{n-1}$ of $u^{n-1}$, we consider the problem of finding $(u,M)\in U$ such that
+
+\begin{subequations}\label{TimeStepping}
+\begin{align}
+    \frac{u-\tilde{u}^{n-1}}{k}-\dv(M)&=f,\\
+    \Dev(M)-\nabla u =0
+\end{align}    
+\end{subequations}
+
+
+for $n=1,2,\dots,N$. The last equation will be put into a variational scheme using least-squares approach.
+
+\begin{remark}
+    $\Dev(M)$ is the deviatoric part of $M$ defined by
+
+    $$\Dev(M)=M-\frac{1}{d}\Tr(M)\cdot I.$$
+
+    $U=(H_0^1(\Omega))^d\times (\hh(\dv;\Omega))^d$, where $H_0^1(\Omega)$ is the usual Sobolev space which is the closure of all infinitely differentiable functions with compact support in $\Omega$ and $(\hh(\dv;\Omega))^d=\{M\in (H(\dv;\Omega))^d:\int_\Omega\Tr(M)=0\}$.
+\end{remark}
+
+For given data $g,w\in (L^2(\Omega))^d$ we consider the functional
+
+\begin{equation}
+    J(\uu;g,w):=k\norm{\frac{u-w}{k}-\dv(M)-g}^2+\norm{\Dev(M)-\nabla u}^2+\frac{C_0}{k}\norm{\dv(u)}^2
+\end{equation}
+
+for $\uu=(u,M)\in U$. Note that \eqref{TimeStepping} is an elliptic equation since $k>0$ and therefore admits a unique solution that can also be characterized as a unique minimizer of the problem
+
+\begin{equation}\label{Min}
+    \min_{\boldsymbol{v}\in U}J(\boldsymbol{v};f^n,\tilde{u}^{n-1})
+\end{equation}
+
+It is well known \cite{cai1994first} that the functional satisfies the norm equivalence 
+
+$$\norm{\nabla u}^2+\norm{\dv(M)}^2+\norm{\Dev(M)}^2+\norm{\dv(u)}^2\simeq J(\uu;0,0)$$
+
+for all $\uu=(u,M)\in U$. In particular, there exists a unique minimizer if the space $U$ in \eqref{Min} is replaced by some closed subspace. Note that the norm equivalence constants depend on the time step $k$ in general.
+
+\vspace{0.3 cm}
+
+We introduce the bilinears forms $a,b:U\times U\to\R$,
+
+\begin{align*}
+    b(\uu,\boldsymbol{v}):=&(u,-\dv(N))+(-\dv(M),v)\\
+    &+k(-\dv(M),-\dv(N))\\
+    &+(\Dev(M)-\nabla u,\Dev(N)-\nabla v)\\
+    &+\frac{C_0}{k}(\dv(u),\dv(v))\\
+    a(\uu,\boldsymbol{v}):=&\frac{1}{k}(u,v)+b(\uu,\boldsymbol{v})
+\end{align*}
+
+for all $\uu=(u,M),\boldsymbol{v}=(v,N)\in U$. Moreover, define for some given $w\in(L^2(\Omega))^d$, the functional $F:U\to\R$ by
+
+$$F(\boldsymbol{v};f^n,w)=k\left(f^n+\frac{w}{k},\frac{v}{k}-\dv(N)\right)+\frac{C_0}{k}(\dv(w),\dv(v))$$
+
+for $\boldsymbol{v}=(v,N)\in U$.
+
+\vspace{0.3 cm}
+
+The backward Euler scheme reads as follows: For all $n=1,\dots,N$ let $U_h^n\subseteq U$ denote a closed subspace. Let $u_h^0\in(L^2(\Omega))^d$ be some approximation of the initial data, that is $u_h^0\approx u^0$. For $n=1,\dots, N$ we seek solutions $\uu_h^n=(u_h^n,M_h^n)\in U_h^n$ of
+
+\begin{equation}\label{discreteProblem}
+    a(\uu_h^n,\boldsymbol{v}_h)=F(\boldsymbol{v}_h;f^{n-1},u_h^{n-1})\hspace{0.4 cm}\text{for all } \boldsymbol{v}_h=(v_h,N_h)\in U_h^n.
+\end{equation}
+
+From our discussion above we conclude
+
+\begin{teor}
+    For all $n=1,\dots,N$ Problem \eqref{discreteProblem} admits a unique solution $\uu_h^n\in U_h^n$.
+\end{teor}
+
+\section{Discrete spaces and approximation properties}
+
+\section{Elliptic projection}
+
+In this section we introduce and analyse the elliptic projection operator $\Ep_h:U\to U_h$ which will be used in the remainder of this work. The elliptic part of the problem is described by a nonsymetric bilinear form given by
+
+\begin{align*}
+    \tilde{b}(\uu,\boldsymbol{v}):=&k\left(-\dv(M),\frac{v}{k}-\dv(N)\right)\\
+    &+(\Dev(M)-\nabla u,\Dev(N)-\nabla v)\\
+    &+\frac{C_0}{k}(\dv(u),\dv(v))
+\end{align*}
+
+for all $\uu,\boldsymbol{v}\in U$. We analyse basic properties of $b$ and $\tilde{b}$.
+
+\begin{lemma}
+    There exists constants $c_b,C_b>0$ independents of $k\in(0,T]$ such that 
+
+    \begin{align}
+        c_b\norm{\uu}_k^2&\leq\min\{b(\uu,\uu),\tilde{b}(\uu,\uu)\},\label{coercive}\\
+        \max\{|b(\uu,\boldsymbol{v})|,|\tilde{b}(\uu,\boldsymbol{v})|\}&\leq C_b\norm{\uu}_k\norm{\boldsymbol{v}}_k\label{bound}
+    \end{align}
+
+    for all $\uu,\vv \in U$.
+\end{lemma}
+
+\begin{proof}
+  We start to prove boundedness \eqref{bound} of $\tilde{b}$.  First, in \cite{arnold1984family} and \cite{cai2003first} was proved that exists a positive constant $C$ that only depends on the domain such that
+
+  $$\norm{\Tr(M)}\leq C(\norm{\Dev(M)}+\norm{\dv(M)})$$
+
+  Using this inequality, integration by parts, the Cauchy-Schwarz inequality and the triangle inequality show that
+
+  \begin{align*}
+      |(-&\dv(M),v)+k(\dv(M),\dv(N))|\\\leq& |(M,\nabla v)|+k^{1/2}\norm{\dv(M)}k^{1/2}\norm{\dv(N)}\\
+      \leq &|(\Dev(M),\nabla v)|+\frac{1}{d}|(\Tr(M),\dv(v))|+k^{1/2}\norm{\dv(M)}k^{1/2}\norm{\dv(N)}\\
+      \leq&\norm{\Dev(M)}\norm{\nabla v}+C(k^{1/2}\norm{\Dev(M)}+k^{1/2}\norm{\dv(M)})k^{-1/2}\norm{\dv(v)}\\&+k^{1/2}\norm{\dv(M)}k^{1/2}\norm{\dv(N)}\\
+      \leq&\norm{\Dev(M)}\norm{\nabla v}+C(\norm{\Dev(M)}+k^{1/2}\norm{\dv(M)})k^{-1/2}\norm{\dv(v)}\\&+k^{1/2}\norm{\dv(M)}k^{1/2}\norm{\dv(N)}\\
+      \lesssim &\norm{\uu}_k\norm{\vv}_k.
+  \end{align*}
+
+  Moreover,
+
+\begin{align*}
+    |(\Dev(M)-\nabla u,\Dev(N)-\nabla v)|&\leq \norm{\uu}_k\norm{\vv}_k,\\
+    \frac{C_0}{k}(\dv(u),\dv(v))&\leq\norm{\uu}_k\norm{\vv}_k.
+\end{align*}
+
+  Putting altogether, this shows the boundedness of $\tilde{b}$. The same arguments prove the boundedness of $b$ and therefore \eqref{bound}. It remains to show \eqref{coercive}.
+\end{proof}
+
+For given $\uu=(u,M)\in U$ define the \textit{elliptic projector} $\Ep_h\uu=(\Ep_h^{\nabla}\uu,\Ep_h^{\dv}\uu)\in U_h$ by
+
+\begin{equation}
+    \tilde{b}(\Ep_h\uu,\vv_h)=\tilde{b}(\uu,\vv_h) \text{ for all }\vv_h\in U_h
+\end{equation}
+
+\begin{teor}
+    If $\uu\in U$, then $\Ep_h\uu$ is well-defined. In particular it holds that
+
+    \begin{equation}
+        \norm{\uu-\Ep_h\uu}_k\leq C_{\text{opt}}\inf_{\vv_h\in U_h}\norm{\uu-\vv_h}_k
+    \end{equation}
+
+    The constant $C_{opt}>0$ only depends on $c_b,C_b>0$.
+\end{teor}
+
+
+\section{A Priori Analysis}
+
+\subsection{Stability of discrete solutions}
+
+Our first result treats stability of discrete solutions of \eqref{discreteProblem}.
+
+\begin{teor}
+    Let $f\in C^0([0,T];(L^2(\Omega))^d)$ and let $u_h\in L^2(\Omega)$ be given. Let $\uu_h^n=(u_h^n,M_h^n)\in U_h^n,$ $n=1,\dots,N$, denote the solutions of \eqref{discreteProblem}. Then, the $n$-th iteration satisfies 
+
+    $$\norm{u_h^n}\leq \displaystyle\sum_{j=1}^n(k_j\norm{f^j}+\norm{\dv(u_h^{j-1})})+\norm{u_h^0}$$
+\end{teor}
+
+\begin{proof}
+    Apply the triangle inequality and the Cauchy-Schwarz estimate to get
+
+    \begin{align*}
+        |F(\vv_h;f^n,u_h^{n-1})|&\leq k_n^{1/2}\norm{f^n+\frac{u_h^{n-1}}{k_n}}k_n^{1/2}\norm{\frac{v_h}{k_n}-\dv(N_h)}+k_n^{-1/2}\norm{\dv(u_h^{n-1})}k_n^{-1/2}\norm{\dv(v_h)}\\
+        &\leq\left(k_n^{1/2}\norm{f^n+\frac{u_h^{n-1}}{k_n}}+k_n^{-1/2}\norm{\dv(u_h^{n-1})}\right)a(\vv_h,\vv_h)^{1/2}.
+    \end{align*}
+
+    Thus, the choice $\vv_h=\uu_h^n$ and \eqref{discreteProblem} lead to
+
+    $$a(\uu_h^n,\uu_h^n)^{1/2}\leq k_n^{1/2}\norm{f^n}+k_n^{-1/2}\norm{u_h^{n-1}}+k_n^{-1/2}\norm{\dv(u_h^{n-1})}.$$
+
+    Multiplying by $k_n^{1/2}$ and using that $b(\cdot,\cdot)$ is coercive we infer
+
+    $$\norm{u_h^n}\leq k_n^{1/2}a(\uu_h^n,\uu_h^n)^{1/2}\leq k_n\norm{f^n}+\norm{u_h^{n-1}}+\norm{\dv(u_h^{n-1})}.$$
+
+    Iterating the same arguments yields the assertion.
+\end{proof}
+
+\subsection{Optimal $L^2$ estimates}
+
+We will assume that the initial data $u_h^0$ for problem \eqref{discreteProblem} is chosen such that 
+
+\begin{equation}\label{initialEstimate}
+    \norm{\Ep_h^{\nabla}\uu^0-u_h^0}\leq \bar{C}h^{p+2},
+\end{equation}
+
+where $\bar{C}$ is some generic constant depending also in $\uu^0$ and $\Ep_h=(\Ep_h^{\nabla},\Ep_h^{\dv})$ is the elliptic projection operator.
+
+\begin{teor}
+    Suppose $k>0$ for $j=1,\dots, N$ and let $\uu_h^n\in U_h$ denote the solution of \eqref{discreteProblem} and let $\uu=(u,M)$ denote the solution of \eqref{NewVariable}. If \eqref{initialEstimate} hold true, then 
+
+    $$\norm{u^n-u_h^n}\leq C(\uu)(h^{p+2}+k).$$
+\end{teor}
+
+\begin{proof}
+
+    We consider the error splitting
+
+    $$u^n-u_h^n=(u^h-\Ep_h^{\nabla}\uu^n)+(\Ep_h^{\nabla}\uu^n-u_h^n),$$
+
+    where $\Ep_h\uu\in U_h$ is the elliptic projection.
+
+    \vspace{0.3 cm}
+
+    \textbf{Step 1.} We have that
+
+    $$\norm{u^n-\Ep_h^{\nabla}\uu^n}\leq h^{p+2}|||\uu^n|||_p.$$
+
+    \vspace{0.3 cm}
+
+    \textbf{Step 2.} Observe that $\Ep_h\uu^n$ satisfies the equation
+
+    \begin{align*}
+        \frac{1}{k}(\Ep_h^{\nabla}\uu^n,v_h)+b(\Ep_h\uu^n,\vv_h)&=\frac{1}{k}(\Ep_h^{\nabla}\uu^n,v_h)+(\Ep_h^{\nabla}\uu^n,-\dv(N))+\tilde{b}(\Ep_h\uu^n,\vv_h)\\
+        &=\frac{1}{k}(\Ep_h^{\nabla}\uu^n,v_h)+(\Ep_h^{\nabla}\uu^n,-\dv(N))+\tilde{b}(\uu^n,\vv_h)\\
+        &=\left(\Ep_h^{\nabla}\uu^n+k(f^n-\dot{u}^n),\frac{v_h}{k}-\dv(N)\right)
+    \end{align*}
+
+    By \eqref{discreteProblem} the discrete solution satisfies
+
+    $$\frac{1}{k}(u_h^n,v_h)+b(\uu_h^n,\vv_h)=k\left(\frac{u_h^{n-1}}{k}+f^n,\frac{v_h}{k}-\dv(N)\right)+\frac{C_0}{k}(\dv(u_h^{n-1}),\dv(v_h))$$
+
+    Then, the error equations read
+
+    $$\frac{1}{k}(\Ep_h^{\nabla}\uu^n-u_h^n,v_h)+b(\Ep_h\uu^n-u_h^n,\vv_h)=\left(\Ep_h^{\dv}\uu^n-u_h^{n-1}-k\dot{u}^n,\frac{v_h}{k}-\dv(N)\right)-\frac{C_0}{k}(\dv(u_h^{n-1}),\dv(v_h))$$
+\end{proof}
